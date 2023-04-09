@@ -58,50 +58,61 @@ function addTodo(){ //Todoを追加する
 </script>
 
 <template>
-    <div class="container">
-		<div class="p-3 text-center">
-			<h1>{{ myData.appName }}</h1>
-		    <p v-if="myData.done">完了リスト</p><p v-else>未了リスト</p>
-		    <p><button @click="toggle" class="btn btn-primary">完了/未了</button></p>
-		</div>
-		<div class="mb-3">
-			<table class="table">
-				<thead class="table-ligth">
-					<tr>
-						<th width="85%">内容</th>
-						<th>追加</th>
+	<v-layout>
+		<div class="container">
+			<div class="p-3 text-center">
+				<h1>{{ myData.appName }}</h1>
+				<p v-if="myData.done">完了リスト</p><p v-else>未了リスト</p>
+				<p><v-btn @click="toggle">完了/未了</v-btn></p>
+			</div>
+			<div>
+				<v-table>
+					<thead>
+						<tr>
+							<th width="85%">内容</th>
+							<th>追加</th>
+						</tr>
+					</thead>
+						<tr>
+							<td>
+								<v-text-field 
+								    v-model="myData.title" 
+									hide-details="auto"
+								></v-text-field>
+							</td>
+							<td><v-btn @click="addTodo" color="info">追加</v-btn></td>
+						</tr>
+				</v-table>
+			</div>
+			<div>
+				<v-table>
+					<thead>
+						<tr>
+							<th width="10%">番号</th>
+							<th width="10%">状態</th>
+							<th width="50%">内容</th>
+							<th>変更</th>
+							<th>削除</th>
+							<th>編集</th>
+						</tr>
+					</thead>
+					<tr v-for="todo in getTodos" key="todo.id">
+						<td>{{ todo.id }}</td>
+						<td v-if="todo.done">完了</td><td v-else>未了</td>
+						<td v-if="todo.id!=myData.edit">{{ todo.title }}</td>
+						<td v-else>
+							<v-text-field 
+							    v-model="todo.title"
+								hide-details="auto"
+							></v-text-field>
+						</td>
+						<td><v-btn @click="changeTodo(todo.id)" color="primary">変更</v-btn></td>
+						<td><v-btn @click="deleteTodo(todo.id)" color="danger">削除</v-btn></td>
+						<td><v-btn @click="editTodo(todo.id)" color="secondary">編集</v-btn></td>
+						<td v-if="todo.id==myData.edit"><v-btn @click="resetEdit" color="green">解除</v-btn></td>
 					</tr>
-				</thead>
-					<tr>
-						<td><input v-model="myData.title" class="form-control"/></td>
-						<td><button @click="addTodo" class="btn btn-primary">追加</button></td>
-					</tr>
-			</table>
+				</v-table>
+			</div>
 		</div>
-		<div class="mb-3">
-			<table class="table tablestriped table-hover">
-				<thead class="table-light">
-					<tr>
-						<th width="10%">番号</th>
-						<th width="10%">状態</th>
-						<th width="50%">内容</th>
-						<th>変更</th>
-						<th>削除</th>
-						<th>編集</th>
-					</tr>
-				</thead>
-				<tr v-for="todo in getTodos" key="todo.id">
-					<td>{{ todo.id }}</td>
-					<td v-if="todo.done">完了</td><td v-else>未了</td>
-					<td v-if="todo.id!=myData.edit">{{ todo.title }}</td>
-					<td v-else><input v-model="todo.title"/></td>
-					<td><button @click="changeTodo(todo.id)" class="btn btn-primary">変更</button></td>
-					<td><button @click="deleteTodo(todo.id)" class="btn btn-danger">削除</button></td>
-					<td><button @click="editTodo(todo.id)" class="btn btn-secondary">編集</button></td>
-					<td v-if="todo.id==myData.edit"><button @click="resetEdit" >解除</button></td>
-				</tr>
-			</table>
-		</div>
-	</div>
-  
+	</v-layout>
 </template>
