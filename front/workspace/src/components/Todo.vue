@@ -1,10 +1,23 @@
 <script setup lang="ts">
 import { ref, reactive, computed } from 'vue';
 
-let todos =ref([]);
+interface MyData{
+	appName: string;
+	todos: Todo;
+	done: boolean;
+	edit: number;
+	title: string;
+}
+interface Todo{
+	id: number;
+	done: boolean;
+	title: string;
+}
+
+let todos: Todo = ref([]);
 let todosLength = todos.value.length; //Todoの格納されている数
 
-const myData = reactive({
+const myData: MyData = reactive({
 	appName: "TODO Application",
 	todos: todos.value, // TODOリスト
 	done: false,  // 選択中のフラグ
@@ -21,19 +34,19 @@ const getTodos = computed(() => { //完了・未了の状態からTodoを抽出
 	return result;
 });
 
-function changeTodo(id){ //各Todoの完了・未了の状態を反転
+function changeTodo(id:number){ //各Todoの完了・未了の状態を反転
     todos.value.forEach(todo => {if(todo.id == id) todo.done = !todo.done;});
     toggle();
     toggle();
 }
 
-function deleteTodo(id){ //Todoの削除
+function deleteTodo(id:number){ //Todoの削除
     todos.value = todos.value.filter( t => (t.id != id));
     toggle();
     toggle();
 }
 
-function editTodo(id){ //編集中のidを変更
+function editTodo(id:number){ //編集中のidを変更
     myData.edit = id;
 }
 function resetEdit(){ //編集モードリセット
@@ -45,7 +58,7 @@ function addTodo(){ //Todoを追加する
 		myData.title = "-";
 	}
 	myData.done = false;
-	const todo = {
+	const todo: Todo = {
 		id: ++todosLength,
 		done: false,
 		title: myData.title
