@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref, reactive, computed } from "vue";
-import type{ MyData, Todo } from "../interfaces.ts"
+import type{ MyData, Todo } from "../interfaces"
 
-let todos: Todo = ref([]);
+let todos: Todo[] = ref([]);
 let todosLength: number = todos.value.length; //Todoの格納されている数
 
 const myData: MyData = reactive({
