@@ -1,21 +1,9 @@
 <script setup lang="ts">
-import { ref, reactive, computed } from 'vue';
-
-interface MyData{
-	appName: string;
-	todos: Todo;
-	done: boolean;
-	edit: number;
-	title: string;
-}
-interface Todo{
-	id: number;
-	done: boolean;
-	title: string;
-}
+import { ref, reactive, computed } from "vue";
+import type{ MyData, Todo } from "../interfaces.ts"
 
 let todos: Todo = ref([]);
-let todosLength = todos.value.length; //Todoの格納されている数
+let todosLength: number = todos.value.length; //Todoの格納されている数
 
 const myData: MyData = reactive({
 	appName: "TODO Application",
